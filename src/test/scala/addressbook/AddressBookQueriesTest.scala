@@ -1,7 +1,6 @@
 package addressbook
 
 import Utils._
-import java.text.DateFormat
 
 import org.mockito.Mockito
 import org.scalatest.FunSuite

@@ -1,7 +1,5 @@
 package addressbook
 
-import java.text.DateFormat
-
 import addressbook.Utils.dateFromString
 import org.scalatest._
 

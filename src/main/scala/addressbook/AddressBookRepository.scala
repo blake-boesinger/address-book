@@ -12,7 +12,7 @@ object FileContents {
                        |Wes Jackson, Male, 14/08/74""".stripMargin
   }
 
-class AddressBookRepository(csv: String) {  //assume only CSV is needed.
+class AddressBookRepository(csv: String) { //assume only CSV is needed.
   //strictly speaking repository could be separated from parsing, but will keep them as one
   //for a simple toy problem like this
   def entries: List[Entry] = {
