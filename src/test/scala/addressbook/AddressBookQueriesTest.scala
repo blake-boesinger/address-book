@@ -1,25 +1,45 @@
 package addressbook
 
+import Utils._
 import java.text.DateFormat
 
+import org.mockito.Mockito
 import org.scalatest.FunSuite
 
 class AddressBookQueriesTest extends FunSuite {
 
   test("should count males") {
-    assert (new AddressBookQueries(new AddressBookRepository(FileContents.fileContents)).countMales == 3)
+    val mockRepo = setUpMock(
+      List(Entry("younger person", Male, dateFromString("14/08/74")),
+        Entry("older person", Female, dateFromString("14/08/73"))
+      ))
+
+    assert (new AddressBookQueries(mockRepo).countMales == 1)
   }
 
   test("should find oldest person") {
-    assert (new AddressBookQueries(new AddressBookRepository(FileContents.fileContents)).oldestPerson == Some(Entry("Wes Jackson", Male, DateFormat.getDateInstance(DateFormat.SHORT).parse("14/08/74"))))
+    val mockRepo = setUpMock(
+      List(Entry("younger person", Male, dateFromString("14/08/74")),
+        Entry("older person", Female, dateFromString("14/08/73"))
+      ))
+
+    assert (new AddressBookQueries(mockRepo).oldestPerson == Some(Entry("older person", Female, dateFromString("14/08/73"))))
   }
 
   test("should find oldest person in empty address book") {
-    assert (new AddressBookQueries(new AddressBookRepository("")).oldestPerson.isEmpty)
+    val mockRepo = Mockito.mock(classOf[AddressBookRepository])
+
+    Mockito.when(mockRepo.entries).thenReturn(List())
+
+    assert (new AddressBookQueries(mockRepo).oldestPerson.isEmpty)
   }
 
-
-
+  private def setUpMock(entries: List[Entry]) = {
+    val mockRepo = Mockito.mock(classOf[AddressBookRepository])
+    Mockito.when(mockRepo.entries).thenReturn(
+      entries)
+    mockRepo
+  }
 
 
 }
